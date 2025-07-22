@@ -1,358 +1,191 @@
-// Edge compatibility polyfills
-if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-}
+// Interactive Bluebird Poem JavaScript
 
-// Slideshow Class
-class InteractiveSlideshow {
-    constructor() {
-        this.currentSlide = 0;
-        this.slides = document.querySelectorAll('.slide');
-        this.totalSlides = this.slides.length;
-        this.isTransitioning = false;
-        this.autoPlayInterval = null;
-        this.autoPlayDelay = 5000; // 5 seconds
-
-        this.init();
-    }
-
-    init() {
-        this.createDots();
-        this.bindEvents();
-        this.startAutoPlay();
-        this.initializeGSAP();
-    }
-
-    // Create navigation dots
-    createDots() {
-        const dotsContainer = document.getElementById('dotsContainer');
+document.addEventListener('DOMContentLoaded', function() {
+    const bird = document.getElementById('bird');
+    const interactionHint = document.querySelector('.interaction-hint');
+    
+    let clickCount = 0;
+    let isAnimating = false;
+    
+    // Bird click interaction
+    bird.addEventListener('click', function() {
+        if (isAnimating) return;
         
-        for (let i = 0; i < this.totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => this.goToSlide(i));
-            dotsContainer.appendChild(dot);
+        isAnimating = true;
+        clickCount++;
+        
+        // Add click animation class
+        bird.classList.add('clicked');
+        
+        // Create audio context for bird sounds (if supported)
+        if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
+            playBirdSound();
         }
-    }
+        
+        // Update interaction hint
+        updateInteractionHint();
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+            bird.classList.remove('clicked');
+            isAnimating = false;
+        }, 500);
+    });
+    
+    // Bird hover effects
+    bird.addEventListener('mouseenter', function() {
+        if (!isAnimating) {
+            bird.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+    });
+    
+    bird.addEventListener('mouseleave', function() {
+        if (!isAnimating) {
+            bird.style.transform = 'scale(1) rotate(0deg)';
+        }
+    });
+    
 
-    // Bind event listeners
-    bindEvents() {
-        // Navigation buttons
-        document.getElementById('prevBtn').addEventListener('click', () => this.prevSlide());
-        document.getElementById('nextBtn').addEventListener('click', () => this.nextSlide());
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') this.prevSlide();
-            if (e.key === 'ArrowRight') this.nextSlide();
-            if (e.key === 'Escape') this.closeModal();
-        });
-
-        // Slide click for modal
-        this.slides.forEach((slide, index) => {
-            slide.addEventListener('click', () => this.openModal(index));
-        });
-
-        // Modal close
-        document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
-        document.getElementById('imageModal').addEventListener('click', (e) => {
-            if (e.target.id === 'imageModal') this.closeModal();
-        });
-
-        // Pause autoplay on hover
-        const slideshowContainer = document.querySelector('.slideshow-container');
-        slideshowContainer.addEventListener('mouseenter', () => this.pauseAutoPlay());
-        slideshowContainer.addEventListener('mouseleave', () => this.startAutoPlay());
-    }
-
-    // Initialize GSAP animations
-    initializeGSAP() {
+    
+    // Function to play bird sound using Web Audio API
+    function playBirdSound() {
         try {
-            // Set initial state for slides
-            gsap.set(this.slides, {
-                opacity: 0,
-                scale: 1.1,
-                rotationY: 15
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Create a melodic bird song pattern
+            const frequencies = [440, 523, 659, 784, 659, 523]; // A, C, E, G, E, C
+            const duration = 0.15;
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequencies[0], audioContext.currentTime);
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+            
+            // Play the sequence
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+                    
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+                    
+                    gain.gain.setValueAtTime(0, audioContext.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + duration);
+                }, index * 150);
             });
-
-            // Set initial active slide
-            gsap.set(this.slides[0], {
-                opacity: 1,
-                scale: 1,
-                rotationY: 0
-            });
+            
         } catch (error) {
-            console.warn('GSAP initialization failed, using CSS fallback:', error);
-            // Fallback to CSS classes
-            this.slides.forEach((slide, index) => {
-                if (index === 0) {
-                    slide.classList.add('active');
-                } else {
-                    slide.classList.remove('active');
-                }
-            });
+            console.log('Audio not supported or blocked by browser');
         }
     }
-
-    // Go to specific slide
-    goToSlide(index) {
-        if (this.isTransitioning || index === this.currentSlide) return;
-        
-        this.isTransitioning = true;
-        const prevSlide = this.currentSlide;
-        this.currentSlide = index;
-
-        // Update dots
-        this.updateDots();
-
-        // GSAP animation for slide transition
-        const tl = gsap.timeline({
-            onComplete: () => {
-                this.isTransitioning = false;
-            }
-        });
-
-        // Animate current slide out
-        tl.to(this.slides[prevSlide], {
-            opacity: 0,
-            scale: 0.9,
-            rotationY: -15,
-            duration: 0.8,
-            ease: "power2.inOut"
-        });
-
-        // Animate new slide in
-        tl.to(this.slides[this.currentSlide], {
-            opacity: 1,
-            scale: 1,
-            rotationY: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.6");
-
-        // Background transition effect
-        this.triggerBackgroundTransition();
-    }
-
-    // Previous slide
-    prevSlide() {
-        const newIndex = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
-        this.goToSlide(newIndex);
-    }
-
-    // Next slide
-    nextSlide() {
-        const newIndex = this.currentSlide === this.totalSlides - 1 ? 0 : this.currentSlide + 1;
-        this.goToSlide(newIndex);
-    }
-
-    // Update navigation dots
-    updateDots() {
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            if (index === this.currentSlide) {
-                dot.classList.add('active');
-                // GSAP animation for active dot
-                gsap.to(dot, {
-                    scale: 1.3,
-                    duration: 0.3,
-                    ease: "back.out(1.7)"
-                });
-            } else {
-                dot.classList.remove('active');
-                gsap.to(dot, {
-                    scale: 1,
-                    duration: 0.3
-                });
-            }
-        });
-    }
-
-    // Background transition effect
-    triggerBackgroundTransition() {
-        const bgTransition = document.getElementById('bgTransition');
-        
-        // Create background transition animation
-        gsap.timeline()
-            .to(bgTransition, {
-                opacity: 1,
-                duration: 0.3,
-                ease: "power2.in"
-            })
-            .to(bgTransition, {
-                opacity: 0,
-                duration: 0.3,
-                ease: "power2.out",
-                delay: 0.2
-            });
-
-        // Change body background gradient
-        const gradients = [
-            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-            'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-            'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-            'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+    
+    // Function to update interaction hint
+    function updateInteractionHint() {
+        const hints = [
+            "Click the bird to hear its song...",
+            "The bluebird sings of freedom...",
+            "Listen to nature's melody...",
+            "Watch the bluebird dance...",
+            "Let the bluebird guide your heart..."
         ];
-
-        gsap.to(document.body, {
-            background: gradients[this.currentSlide],
-            duration: 1,
-            ease: "power2.inOut"
-        });
-    }
-
-    // Open modal with image details
-    openModal(slideIndex) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDescription = document.getElementById('modalDescription');
-        const imageResolution = document.getElementById('imageResolution');
-
-        const slide = this.slides[slideIndex];
-        const img = slide.querySelector('img');
-        const title = slide.querySelector('h2').textContent;
-        const description = slide.querySelector('p').textContent;
-
-        // Set modal content
-        modalImage.src = img.src;
-        modalImage.alt = img.alt;
-        modalTitle.textContent = title;
-        modalDescription.textContent = description;
-        imageResolution.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
-
-        // Show modal with GSAP animation
-        modal.classList.add('active');
-        gsap.fromTo(modal, {
-            opacity: 0
-        }, {
-            opacity: 1,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-
-        gsap.fromTo(modal.querySelector('.modal-content'), {
-            scale: 0.7,
-            y: 50
-        }, {
-            scale: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "back.out(1.7)"
-        });
-    }
-
-    // Close modal
-    closeModal() {
-        const modal = document.getElementById('imageModal');
         
-        gsap.to(modal.querySelector('.modal-content'), {
-            scale: 0.7,
-            y: 50,
-            duration: 0.3,
-            ease: "power2.in"
-        });
-
-        gsap.to(modal, {
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.in",
-            delay: 0.1,
-            onComplete: () => {
-                modal.classList.remove('active');
-            }
-        });
+        const randomHint = hints[Math.floor(Math.random() * hints.length)];
+        interactionHint.style.opacity = '0';
+        
+        setTimeout(() => {
+            interactionHint.textContent = randomHint;
+            interactionHint.style.opacity = '1';
+        }, 300);
     }
+    
 
-    // Start autoplay
-    startAutoPlay() {
-        this.autoPlayInterval = setInterval(() => {
-            this.nextSlide();
-        }, this.autoPlayDelay);
-    }
-
-    // Pause autoplay
-    pauseAutoPlay() {
-        if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
+    
+    // Add parallax effect to background
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector('body');
+        const speed = scrolled * 0.5;
+        
+        parallax.style.transform = `translateY(${speed}px)`;
+    });
+    
+    // Add floating particles effect
+    createFloatingParticles();
+    
+    function createFloatingParticles() {
+        const container = document.querySelector('.container');
+        
+        for (let i = 0; i < 15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'floating-particle';
+            particle.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: rgba(59, 130, 246, 0.3);
+                border-radius: 50%;
+                pointer-events: none;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 2}s;
+            `;
+            container.appendChild(particle);
         }
+        
+        // Add floating animation
+        const floatStyle = document.createElement('style');
+        floatStyle.textContent = `
+            @keyframes float {
+                0%, 100% { 
+                    transform: translateY(0px) translateX(0px);
+                    opacity: 0.3;
+                }
+                50% { 
+                    transform: translateY(-20px) translateX(10px);
+                    opacity: 0.8;
+                }
+            }
+        `;
+        document.head.appendChild(floatStyle);
     }
-
-    // Add hover effects with GSAP
-    addHoverEffects() {
-        this.slides.forEach(slide => {
-            const img = slide.querySelector('img');
-            const content = slide.querySelector('.slide-content');
-
-            // Image hover effect
-            slide.addEventListener('mouseenter', () => {
-                gsap.to(img, {
-                    scale: 1.05,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-
-                gsap.to(content, {
-                    y: 0,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-            });
-
-            slide.addEventListener('mouseleave', () => {
-                gsap.to(img, {
-                    scale: 1,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-
-                gsap.to(content, {
-                    y: '100%',
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-            });
-        });
-    }
-}
-
-// Initialize slideshow when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const slideshow = new InteractiveSlideshow();
-    slideshow.addHoverEffects();
-
-    // Add loading animation
-    gsap.from('.slide.active', {
-        opacity: 0,
-        scale: 1.2,
-        duration: 1,
-        ease: "power2.out"
+    
+    // Add keyboard interaction
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            event.preventDefault();
+            bird.click();
+        }
     });
-
-    // Animate controls in
-    gsap.from('.slideshow-controls', {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 0.5
+    
+    // Add touch support for mobile
+    bird.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        bird.click();
     });
+    
+    // Initialize with a gentle entrance animation
+    setTimeout(() => {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 1s ease-in-out';
+        document.body.style.opacity = '1';
+    }, 100);
 });
-
-// Add smooth scroll behavior
-document.documentElement.style.scrollBehavior = 'smooth';
-
-// Performance optimization: Preload images
-function preloadImages() {
-    const images = document.querySelectorAll('.slide img');
-    images.forEach(img => {
-        const preloadImg = new Image();
-        preloadImg.src = img.src;
-    });
-}
-
-// Call preload function
-preloadImages(); 

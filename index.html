@@ -3,87 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Media Slideshow</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Bluebird - Interactive Poem</title>
+    <link rel="stylesheet" href="styles.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="slideshow-container">
-        <div class="slideshow-wrapper">
-            <div class="slide active" data-index="0">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop" alt="Mountain Landscape">
-                <div class="slide-content">
-                    <h2>Mountain Adventure</h2>
-                    <p>Explore the breathtaking peaks and valleys of nature's grandeur.</p>
-                </div>
+    <div class="container">
+        <header class="poem-header">
+            <h1 class="title">Bluebird</h1>
+            <div class="bird-container">
+                <img src="assets/bird1.png" alt="Bluebird" class="bird-image" id="bird">
             </div>
-            <div class="slide" data-index="1">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop" alt="Forest Path">
-                <div class="slide-content">
-                    <h2>Forest Serenity</h2>
-                    <p>Walk through ancient trees and discover hidden wonders.</p>
-                </div>
-            </div>
-            <div class="slide" data-index="2">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop" alt="Ocean Waves">
-                <div class="slide-content">
-                    <h2>Ocean Dreams</h2>
-                    <p>Feel the rhythm of the waves and the vastness of the sea.</p>
-                </div>
-            </div>
-            <div class="slide" data-index="3">
-                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=600&fit=crop" alt="Sunset Sky">
-                <div class="slide-content">
-                    <h2>Golden Hour</h2>
-                    <p>Witness the magical moments when day meets night.</p>
-                </div>
-            </div>
-            <div class="slide" data-index="4">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop" alt="City Lights">
-                <div class="slide-content">
-                    <h2>Urban Night</h2>
-                    <p>Experience the vibrant energy of city life after dark.</p>
-                </div>
-            </div>
-        </div>
+        </header>
+        
 
-        <!-- Navigation Controls -->
-        <div class="slideshow-controls">
-            <button class="nav-btn prev-btn" id="prevBtn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15,18 9,12 15,6"></polyline>
-                </svg>
-            </button>
-            <div class="dots-container" id="dotsContainer"></div>
-            <button class="nav-btn next-btn" id="nextBtn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9,18 15,12 9,6"></polyline>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Background Transition Overlay -->
-        <div class="bg-transition" id="bgTransition"></div>
+        
+        <footer class="poem-footer">
+            <p class="interaction-hint">Click the bird to hear its song...</p>
+        </footer>
     </div>
-
-    <!-- Modal for Image Details -->
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <div class="modal-image-container">
-                <img id="modalImage" src="" alt="">
-            </div>
-            <div class="modal-info">
-                <h2 id="modalTitle"></h2>
-                <p id="modalDescription"></p>
-                <div class="modal-meta">
-                    <span class="image-source">Source: Unsplash</span>
-                    <span class="image-resolution" id="imageResolution"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
