@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const bird = document.getElementById('bird');
-    const interactionHint = document.querySelector('.interaction-hint');
     
     let clickCount = 0;
     let isAnimating = false;
@@ -16,14 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add click animation class
         bird.classList.add('clicked');
-        
-        // Create audio context for bird sounds (if supported)
-        if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-            playBirdSound();
-        }
-        
-        // Update interaction hint
-        updateInteractionHint();
         
         // Remove animation class after animation completes
         setTimeout(() => {
@@ -47,77 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     
-    // Function to play bird sound using Web Audio API
-    function playBirdSound() {
-        try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            // Create a melodic bird song pattern
-            const frequencies = [440, 523, 659, 784, 659, 523]; // A, C, E, G, E, C
-            const duration = 0.15;
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequencies[0], audioContext.currentTime);
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
-            
-            // Play the sequence
-            frequencies.forEach((freq, index) => {
-                setTimeout(() => {
-                    const osc = audioContext.createOscillator();
-                    const gain = audioContext.createGain();
-                    
-                    osc.connect(gain);
-                    gain.connect(audioContext.destination);
-                    
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-                    
-                    gain.gain.setValueAtTime(0, audioContext.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-                    
-                    osc.start(audioContext.currentTime);
-                    osc.stop(audioContext.currentTime + duration);
-                }, index * 150);
-            });
-            
-        } catch (error) {
-            console.log('Audio not supported or blocked by browser');
-        }
-    }
-    
-    // Function to update interaction hint
-    function updateInteractionHint() {
-        const hints = [
-            "Click the bird to hear its song...",
-            "The bluebird sings of freedom...",
-            "Listen to nature's melody...",
-            "Watch the bluebird dance...",
-            "Let the bluebird guide your heart..."
-        ];
-        
-        const randomHint = hints[Math.floor(Math.random() * hints.length)];
-        interactionHint.style.opacity = '0';
-        
-        setTimeout(() => {
-            interactionHint.textContent = randomHint;
-            interactionHint.style.opacity = '1';
-        }, 300);
-    }
-    
-
-    
     // Add parallax effect to background
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
@@ -127,45 +47,53 @@ document.addEventListener('DOMContentLoaded', function() {
         parallax.style.transform = `translateY(${speed}px)`;
     });
     
-    // Add floating particles effect
-    createFloatingParticles();
+    // Add floating leaves effect
+    createFloatingLeaves();
     
-    function createFloatingParticles() {
+    function createFloatingLeaves() {
         const container = document.querySelector('.container');
+        const leafImages = ['assets/leaf1.png', 'assets/leaf2.png', 'assets/leaf3.png'];
         
-        for (let i = 0; i < 15; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'floating-particle';
-            particle.style.cssText = `
+        for (let i = 0; i < 8; i++) {
+            const leaf = document.createElement('img');
+            leaf.className = 'floating-leaf';
+            leaf.src = leafImages[Math.floor(Math.random() * leafImages.length)];
+            leaf.style.cssText = `
                 position: absolute;
-                width: 4px;
-                height: 4px;
-                background: rgba(59, 130, 246, 0.3);
-                border-radius: 50%;
+                width: ${60 + Math.random() * 40}px;
+                height: auto;
                 pointer-events: none;
                 left: ${Math.random() * 100}%;
-                top: ${Math.random() * 100}%;
-                animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
-                animation-delay: ${Math.random() * 2}s;
+                top: -50px;
+                animation: leafFall ${8 + Math.random() * 6}s linear infinite;
+                animation-delay: ${Math.random() * 5}s;
+                transform: rotate(${Math.random() * 360}deg);
+                opacity: 0.8;
             `;
-            container.appendChild(particle);
+            container.appendChild(leaf);
         }
         
-        // Add floating animation
-        const floatStyle = document.createElement('style');
-        floatStyle.textContent = `
-            @keyframes float {
-                0%, 100% { 
-                    transform: translateY(0px) translateX(0px);
-                    opacity: 0.3;
+        // Add leaf falling animation
+        const leafStyle = document.createElement('style');
+        leafStyle.textContent = `
+            @keyframes leafFall {
+                0% { 
+                    transform: translateY(-50px) translateX(0px) rotate(0deg);
+                    opacity: 0;
                 }
-                50% { 
-                    transform: translateY(-20px) translateX(10px);
+                10% {
                     opacity: 0.8;
+                }
+                90% {
+                    opacity: 0.8;
+                }
+                100% { 
+                    transform: translateY(100vh) translateX(${Math.random() * 200 - 100}px) rotate(720deg);
+                    opacity: 0;
                 }
             }
         `;
-        document.head.appendChild(floatStyle);
+        document.head.appendChild(leafStyle);
     }
     
     // Add keyboard interaction

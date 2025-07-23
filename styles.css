@@ -58,7 +58,7 @@ body {
 }
 
 .bird-image {
-    width: 600px;
+    width: 800px;
     height: auto;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -179,7 +179,7 @@ body {
     }
     
     .bird-image {
-        width: 450px;
+        width: 600px;
     }
     
     .poem-content {
@@ -197,7 +197,7 @@ body {
     }
     
     .bird-image {
-        width: 350px;
+        width: 500px;
     }
     
     .poem-content {
