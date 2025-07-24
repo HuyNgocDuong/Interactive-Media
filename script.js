@@ -20,32 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             bird.classList.remove('clicked');
             isAnimating = false;
-        }, 500);
-    });
-    
-    // Bird hover effects
-    bird.addEventListener('mouseenter', function() {
-        if (!isAnimating) {
-            bird.style.transform = 'scale(1.1) rotate(5deg)';
-        }
-    });
-    
-    bird.addEventListener('mouseleave', function() {
-        if (!isAnimating) {
-            bird.style.transform = 'scale(1) rotate(0deg)';
-        }
+        }, 800);
     });
     
 
     
-    // Add parallax effect to background
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallax = document.querySelector('body');
-        const speed = scrolled * 0.5;
-        
-        parallax.style.transform = `translateY(${speed}px)`;
-    });
+
+    
+
     
     // Add floating leaves effect
     createFloatingLeaves();
