@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bluebird - Interactive Poem</title>
-    <link rel="stylesheet" href="styles.css?v=7">
+            <link rel="stylesheet" href="styles.css?v=101">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Audio elements for sound effects -->
-    <audio id="birdSound" preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/bird-chirp-1.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="windSound" preload="auto" loop>
-        <source src="https://www.soundjay.com/misc/sounds/wind-1.mp3" type="audio/mpeg">
-    </audio>
+
     
     <div class="container">
         <header class="poem-header">
@@ -165,16 +159,179 @@
         </div>
     </section>
 
-           <!-- Eye Bird Section -->
-       <section class="eye-bird-section">
-           <div class="eye-bird-container">
-               <!-- Main Eye Bird Image -->
-               <div class="main-eye-bird">
-                   <img src="assets/eye-bird.png" alt="Eye Bird" class="eye-bird-image">
-               </div>
-           </div>
-       </section>
+                       <!-- Eye Bird Section -->
+        <section class="eye-bird-section">
+            <div class="eye-bird-container">
+                <!-- Main Eye Bird Image -->
+                <div class="main-eye-bird">
+                    <img src="assets/eye-bird.png" alt="Eye Bird" class="eye-bird-image">
+                </div>
+                
+                <!-- Bottom Text -->
+                <div class="eye-bird-text-bottom">
+                    <p class="text-in-there">in there</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brick Wall Section -->
+        <section class="brick-wall-section">
+            
+            <div class="brick-wall-container">
+                <!-- Main Brick Wall Image -->
+                <div class="main-brick-wall">
+                    <img src="assets/brick-wall.png" alt="Brick Wall" class="brick-wall-image" id="brickWallImage">
+                </div>
+                
+                <!-- Particle Effects Container -->
+                <div class="brick-wall-particles" id="particleContainer"></div>
+                
+                <!-- Poem Text -->
+                <div class="brick-wall-text" id="brickWallText">
+                    <p class="text-bluebird-heart">there's a bluebird in my heart that wants to get out</p>
+                    <p class="text-too-tough">but I'm too tough for him,</p>
+                    <p class="text-i-say">I say,</p>
+                    <p class="text-mess-me-up">stay down, do you want to mess me up?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Burn Section -->
+        <section class="burn-section">
+            <div class="burn-container">
+                                       <!-- Main Burn Assets -->
+                                               <div class="burn-assets">
+                            <img src="assets/burn/bird.png" alt="Bird" class="burn-bird">
+                            <img src="assets/burn/flame.png" alt="Flame" class="burn-flame">
+                            <img src="assets/burn/book1.png" alt="Book 1" class="burn-book burn-book-1">
+                            <img src="assets/burn/book2.png" alt="Book 2" class="burn-book burn-book-2">
+                            <img src="assets/burn/book1.png" alt="Book 5" class="burn-book burn-book-5">
+                            <img src="assets/burn/book2.png" alt="Book 6" class="burn-book burn-book-6">
+                            <img src="assets/burn/table.png" alt="Table" class="burn-table">
+                        </div>
+                
+                <!-- Burn Effects Container -->
+                <div class="burn-effects" id="burnEffects"></div>
+                
+                                       <!-- Poem Text -->
+                                               <div class="burn-text" id="burnText">
+                            <p class="text-burn-top">stay down, do you want to mess me up?</p>
+                            <p class="text-burn-bottom">you want to blow my book sales in Europe?</p>
+                        </div>
+            </div>
+        </section>
+
+        <!-- Heart Section -->
+        <section class="heart-section">
+            <div class="heart-container">
+                <!-- Main Heart Image -->
+                <div class="main-heart">
+                    <img src="assets/heart.png" alt="Heart" class="heart-image">
+                </div>
+                
+                                 <!-- Poem Text -->
+                                   <div class="heart-text" id="heartText">
+                      <p class="text-heart-line-1">there's a bluebird</p>
+                      <p class="text-heart-line-2">in my heart that</p>
+                      <p class="text-heart-line-3">wants to get out</p>
+                      <p class="text-heart-line-4">but I'm too clever, I</p>
+                      <p class="text-heart-line-5">only let him out</p>
+                  </div>
+            </div>
+        </section>
+
+        <!-- Trees and Bird Section -->
+        <section class="trees-bird-section">
+            <div class="trees-bird-container">
+                <!-- Trees Background -->
+                <div class="trees-background">
+                    <img src="assets/trees.png" alt="Trees" class="trees-image" id="treesImage">
+                </div>
+                
+                <!-- Bird 2 -->
+                <div class="bird2-position">
+                    <img src="assets/bird2.png" alt="Bird 2" class="bird2-image" id="bird2Image">
+                </div>
+                
+                <!-- Poem Text -->
+                <div class="trees-bird-text">
+                    <p class="text-at-night">at night sometimes</p>
+                    <p class="text-when-everybody">when everybody's asleep</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spotlight Section -->
+        <section class="spotlight-section">
+            <div class="spotlight-container">
+                <!-- Spotlight Background -->
+                <div class="spotlight-background">
+                    <img src="assets/spotlight.png" alt="Spotlight" class="spotlight-image" id="spotlightImage">
+                </div>
+                
+                <!-- Poem Text -->
+                <div class="spotlight-text">
+                    <p class="text-i-say-know">I say, I know that you're there, so don't be sad.</p>
+                    <p class="text-put-him-back">and then I put him back, but he's singing a little.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blob Section -->
+        <section class="blob-section">
+            <div class="blob-container">
+                <!-- Interactive Blobs -->
+                <div class="blob-background" id="blobBackground">
+                    <div class="blob blob-1" id="blob1"></div>
+                    <div class="blob blob-2" id="blob2"></div>
+                    <div class="blob blob-3" id="blob3"></div>
+                    <div class="blob blob-4" id="blob4"></div>
+                </div>
+                
+                <!-- Poem Text -->
+                <div class="blob-text">
+                    <p class="text-in-there">in there, I haven't quite let him</p>
+                    <p class="text-die">die</p>
+                    <p class="text-and-we-sleep">and we sleep together like</p>
+                    <p class="text-that">that</p>
+                    <p class="text-with-our">with our</p>
+                    <p class="text-secret-pact">secret pact</p>
+                </div>
+            </div>
+        </section>
+
+                <!-- Crying Section -->
+                <section class="crying-section">
+                    <div class="crying-container">
+                        <!-- Crying Background -->
+                        <div class="crying-background">
+                            <img src="assets/crying.png" alt="Crying" class="crying-image" id="cryingImage">
+                        </div>
+                        
+                        <!-- Poem Text -->
+                        <div class="crying-text">
+                            <p class="text-nice-enough">and it's nice enough to make a man weep, but I don't weep, do you?</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
     
+    <!-- Audio Elements -->
+    <audio id="birdChirping" preload="auto">
+        <source src="assets/bird-chirping.wav" type="audio/wav">
+    </audio>
+    
+    <audio id="heAnunnaki" preload="auto">
+        <source src="assets/The Anunnaki Return - Jesse Gallagher.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="thoseThingsFun" preload="auto">
+        <source src="assets/Those Things Are More Fun With Other People - pATCHES.mp3" type="audio/mpeg">
+    </audio>
+
     <script src="script.js"></script>
 </body>
 </html>
+
+
