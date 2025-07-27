@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bluebird - Interactive Poem</title>
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Audio elements for sound effects -->
+    <audio id="birdSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bird-chirp-1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="windSound" preload="auto" loop>
+        <source src="https://www.soundjay.com/misc/sounds/wind-1.mp3" type="audio/mpeg">
+    </audio>
+    
     <div class="container">
         <header class="poem-header">
             <h1 class="title">Bluebird</h1>
@@ -16,7 +24,6 @@
             </div>
         </header>
         
-
     </div>
 
     <!-- Bird Cage Section -->
@@ -25,15 +32,148 @@
             <img src="assets/bird-cage.png" alt="Bird Cage" class="cage-image">
             <div class="cage-text">
                 <h2 class="cage-title">Do You?</h2>
-                <p class="cage-poem">
-                    In the depths of night,<br>
-                    A cage of shadows holds the light.<br>
-                    The bluebird's song, now silent,<br>
-                    Echoes through the darkness.
+                <p class="cage-poem cage-poem-line-1">
+                    there's a bluebird in my heart that wants to get out but I'm too tough for him,
+                </p>
+                <p class="cage-poem cage-poem-line-2">
+                    I say, stay in there, I'm not going to let anybody see you.
+                </p>
+                <p class="cage-poem cage-poem-line-3">
+                    there's a bluebird in my heart that wants to get out
                 </p>
             </div>
         </div>
     </section>
+
+    <!-- Whiskey and Cigarette Section -->
+    <section class="whiskey-cigarette-section">
+        <div class="whiskey-cigarette-container">
+            <!-- Whiskey Glass (Upper Right) -->
+            <div class="whiskey-glass-position">
+                <img src="assets/GIn.png" alt="Gin Glass" class="gin-image">
+            </div>
+            
+            <!-- Smoke Image (Bottom Right) -->
+            <div class="smoke-position">
+                <img src="assets/smoke.png" alt="Smoke" class="smoke-image">
+            </div>
+            
+            <!-- Scattered Text -->
+            <div class="scattered-text">
+                <p class="text-whiskey">but I pour whiskey on him</p>
+                <p class="text-and">and</p>
+                <p class="text-inhale">Inhale</p>
+                <p class="text-cigarette">cigarette</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eyes Section -->
+    <section class="eyes-section">
+        <div class="eyes-container">
+            <!-- Poem Text -->
+            <div class="eyes-text">
+                <p class="text-line-1">and the whoves and the boas tender</p>
+                <p class="text-line-2">and the grocery clerks</p>
+                <p class="text-line-3">never know thet</p>
+                <p class="text-line-4">he's</p>
+            </div>
+            
+            <!-- Eyes -->
+            <div class="eyes-group">
+                <div class="eye eye-1">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-2">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-3">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-4">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-5">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-6">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-7">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-8">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-9">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                                <div class="eye eye-10">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-11">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-12">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-13">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-14">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-15">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-16">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-17">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-18">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-19">
+                    <img src="assets/eyes/red-pupil.png" alt="Red Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+                <div class="eye eye-20">
+                    <img src="assets/eyes/blue-pupil.png" alt="Blue Eye" class="pupil">
+                    <img src="assets/eyes/eye-lash.png" alt="Eyelash" class="eyelash">
+                </div>
+            </div>
+        </div>
+    </section>
+
+           <!-- Eye Bird Section -->
+       <section class="eye-bird-section">
+           <div class="eye-bird-container">
+               <!-- Main Eye Bird Image -->
+               <div class="main-eye-bird">
+                   <img src="assets/eye-bird.png" alt="Eye Bird" class="eye-bird-image">
+               </div>
+           </div>
+       </section>
     
     <script src="script.js"></script>
 </body>
